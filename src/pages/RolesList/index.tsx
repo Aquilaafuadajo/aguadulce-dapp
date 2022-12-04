@@ -2,21 +2,13 @@ import React from 'react';
 import { Table, Button } from 'antd';
 import { roleColumns } from '../../configs/tableColumns';
 import { RoleModal } from '../../modals/Role.modal';
-
-const data: { role: string }[] = [
-  {
-    role: 'Admin',
-  },
-  {
-    role: 'Staff',
-  },
-  {
-    role: 'Regular',
-  },
-];
+import { useRoles } from '../../state';
 
 const RoleList = () => {
   const [activeModal, setActiveModal] = React.useState(false);
+
+  const { roles, loading } = useRoles();
+  const allRoles = roles && roles.map((role) => ({ role }));
 
   const onCloseModal = () => {
     setActiveModal(false);
@@ -31,7 +23,12 @@ const RoleList = () => {
         Add New Role
       </Button>
       <RoleModal open={activeModal} setIsModalOpen={onCloseModal} />
-      <Table columns={roleColumns} dataSource={data} rowKey="role" />
+      <Table
+        columns={roleColumns}
+        dataSource={allRoles}
+        rowKey="role"
+        loading={loading}
+      />
     </div>
   );
 };

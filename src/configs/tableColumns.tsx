@@ -1,6 +1,7 @@
 import { Tag, Button } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Member } from '../types';
+import { formatTime } from '../utils';
 
 interface ColumnActions {
   toggleStatus: (address: string, status: boolean) => void;
@@ -33,6 +34,10 @@ export const memberColumns: (actions: ColumnActions) => ColumnsType<Member> = ({
     title: 'Activation Time',
     dataIndex: 'activation_time',
     key: 'activation_time',
+    render: (value) => {
+      const d = new Date(Number(value));
+      return formatTime(d);
+    },
   },
   {
     title: 'Action',

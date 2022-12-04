@@ -1,46 +1,34 @@
-# Getting Started with Create React App
+# Welcome to Aguadulce dapp
+
+Follow [link](https://aguadulce-dapp.netlify.app/) to view live project
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## How To Run
 
-In the project directory, you can run:
+1. Clone the repo using the command below:
 
-### `npm start`
+`git clone git@github.com:Aquilaafuadajo/aguadulce-dapp.git`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. go into the projects root folder and run the following command:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+`npm install`
 
-### `npm test`
+3. Make sure you have the truffle, ganache and metamask extension installed on machine.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- follow [link](https://trufflesuite.com/docs/truffle/how-to/install/) to install truffle on machine
+- follow [link](https://trufflesuite.com/ganache/) to install ganache
+- follow [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) to install metamask extension on your browser.
 
-### `npm run build`
+4. Run Ganache and configure metamask to use ganache local network. Here's a great [article](https://coinsbench.com/connect-to-metamask-from-new-or-existing-web-application-with-truffle-and-ganache-f48aa763c0ac) on how to do this.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. Run the following command to deploy contract to the local test network
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`truffle compile`
+`truffle migrate --reset`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+6. Copy the contract address from the console and paste in the .env file like below:
 
-### `npm run eject`
+`REACT_APP_CONTRACT_ADDRESS=THE_ADDRESS_YOU_COPIED`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+7. Run the `npm start` to start the application.

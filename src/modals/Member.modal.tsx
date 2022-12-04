@@ -73,6 +73,7 @@ export const MemberModal: React.FC<MemberModalType> = ({
     <Modal
       title={title}
       open={open}
+      maskClosable={false}
       onCancel={() => setIsModalOpen(false)}
       footer={null}
     >
@@ -102,7 +103,9 @@ export const MemberModal: React.FC<MemberModalType> = ({
       )}
       {type === 'confirm' && (
         <div className="flex flex-col">
-          <p>Are you sure you want to update member status?</p>
+          <p>{`Are you sure you want to ${
+            data?.active ? 'de-activate' : 'activate'
+          } this member?`}</p>
           <div className="flex w-max ml-auto mt-10 mb-5">
             <Button
               className="w-max ml-auto mr-4"

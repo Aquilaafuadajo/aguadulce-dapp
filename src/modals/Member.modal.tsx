@@ -58,7 +58,7 @@ export const MemberModal: React.FC<MemberModalType> = ({
   const onToggleStatus = async () => {
     try {
       setLoading(true);
-      await toggleRoleStatus(address, data?.active as boolean);
+      await toggleRoleStatus(data?.address as string, data?.active as boolean);
       console.log('success');
       setLoading(false);
       await refetch();

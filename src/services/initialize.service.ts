@@ -5,6 +5,7 @@ export const windowObj = window as any;
 
 export const loadAccount = async () => {
   const addressAccount = await windowObj.web3.eth.getCoinbase();
+  windowObj.addressAccount = addressAccount;
   return addressAccount;
 };
 

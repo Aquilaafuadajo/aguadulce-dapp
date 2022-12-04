@@ -1,8 +1,10 @@
-import { Modal, Input, Select, Button } from 'antd';
+import { Modal, Input, Select, Button, message } from 'antd';
 import React from 'react';
+import { addMember, toggleRoleStatus, windowObj } from '../services';
+import { useMembers, useRoles } from '../state';
 import { MemberModalType } from '../types';
 
-const roles = ['Admin', 'Member', 'Staff', 'Regular', 'Project', 'Sales'];
+// const roles = ['Admin', 'Member', 'Staff', 'Regular', 'Project', 'Sales'];
 
 export const MemberModal: React.FC<MemberModalType> = ({
   type,
@@ -13,7 +15,59 @@ export const MemberModal: React.FC<MemberModalType> = ({
   const title = type === 'add-new' ? 'Add Member' : 'Confirm';
   const [address, setAddress] = React.useState<string>('');
   const [role, setRole] = React.useState<string>('');
+  const [loading, setLoading] = React.useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const { roles } = useRoles();
+  const { refetch, members } = useMembers();
   const allRoles = roles && roles.map((role) => ({ value: role, label: role }));
+
+  const onAddMember = async () => {
+    try {
+      const roleId = roles.indexOf(role);
+      const exists = members?.findIndex((member) => member.address === address);
+      if (address.toLowerCase() === windowObj.addressAccount) {
+        messageApi.open({
+          type: 'error',
+          content: 'Cannot assign role to owner address',
+        });
+        return;
+      }
+      if (exists >= 0) {
+        messageApi.open({
+          type: 'error',
+          content: 'Member already exists',
+        });
+        return;
+      }
+      setLoading(true);
+      await addMember(address, roleId);
+      setLoading(false);
+      messageApi.open({
+        type: 'success',
+        content: 'Member added successfully',
+      });
+      await refetch();
+      setIsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
+
+  const onToggleStatus = async () => {
+    try {
+      setLoading(true);
+      await toggleRoleStatus(address, data?.active as boolean);
+      console.log('success');
+      setLoading(false);
+      await refetch();
+      setIsModalOpen(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
 
   return (
     <Modal
@@ -22,6 +76,7 @@ export const MemberModal: React.FC<MemberModalType> = ({
       onCancel={() => setIsModalOpen(false)}
       footer={null}
     >
+      {contextHolder}
       {type === 'add-new' && (
         <div className="flex flex-col">
           <Input
@@ -38,7 +93,8 @@ export const MemberModal: React.FC<MemberModalType> = ({
           />
           <Button
             className="w-max ml-auto mb-10"
-            onClick={() => setIsModalOpen(false)}
+            loading={loading}
+            onClick={onAddMember}
           >
             Submit
           </Button>
@@ -56,7 +112,8 @@ export const MemberModal: React.FC<MemberModalType> = ({
             </Button>
             <Button
               className="w-max ml-auto"
-              onClick={() => setIsModalOpen(false)}
+              onClick={onToggleStatus}
+              loading={loading}
             >
               confirm
             </Button>

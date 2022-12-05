@@ -8,7 +8,7 @@ const Header = () => {
       <Row justify="center" align="middle">
         <Col span={12}>
           <Space size={3}>
-            <Typography.Title level={3}>Aguaduace</Typography.Title>
+            <Typography.Title level={3}>Aguadulce</Typography.Title>
           </Space>
         </Col>
         <Col flex="flex" span={12}>

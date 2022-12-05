@@ -45,7 +45,7 @@ export const memberColumns: (actions: ColumnActions) => ColumnsType<Member> = ({
     key: 'action',
     render: (row, val) => (
       <Button
-        onClick={() => toggleStatus(val.address, !val.active)}
+        onClick={() => toggleStatus(val.address, val.active as boolean)}
         type="link"
       >
         {val.active ? 'De-activate' : 'Activate'}

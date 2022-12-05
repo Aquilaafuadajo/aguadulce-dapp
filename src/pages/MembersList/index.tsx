@@ -47,6 +47,7 @@ const MemberList = () => {
         setIsModalOpen={onCloseModal}
       />
       <Table
+        data-testid="members-table"
         columns={memberColumns({
           toggleStatus,
         })}

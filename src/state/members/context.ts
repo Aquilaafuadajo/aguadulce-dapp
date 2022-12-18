@@ -1,10 +1,10 @@
 import React from 'react';
-import { Member } from '../../types';
+import { ErrorType, Member } from '../../types';
 
 export type MemberContextType = {
   members: Member[];
   loading: boolean;
-  error: boolean;
+  error: ErrorType;
   setMembers: (members: Member[]) => void;
   refetch: () => Promise<void>;
 };

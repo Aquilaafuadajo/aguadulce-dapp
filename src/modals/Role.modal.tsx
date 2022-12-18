@@ -53,7 +53,10 @@ export const RoleModal: React.FC<{
       title="Add New Role"
       open={open}
       maskClosable={false}
-      onCancel={() => setIsModalOpen(false)}
+      onCancel={() => {
+        setIsModalOpen(false);
+        setRole('');
+      }}
       footer={null}
     >
       {contextHolder}

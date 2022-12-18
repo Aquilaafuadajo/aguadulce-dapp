@@ -1,8 +1,10 @@
 import { Modal, Input, Select, Button, message } from 'antd';
 import React from 'react';
+import Web3 from 'web3';
 import { addMember, toggleRoleStatus, windowObj } from '../services';
 import { useMembers, useRoles } from '../state';
 import { MemberModalType } from '../types';
+import { getRPCErrorMessage } from '../utils';
 
 // const roles = ['Admin', 'Member', 'Staff', 'Regular', 'Project', 'Sales'];
 
@@ -26,10 +28,24 @@ export const MemberModal: React.FC<MemberModalType> = ({
     try {
       const roleId = roles.indexOf(role);
       const exists = members?.findIndex((member) => member.address === address);
+      if (!role) {
+        messageApi.open({
+          type: 'error',
+          content: 'Please provide a valid role',
+        });
+        return;
+      }
       if (address.toLowerCase() === windowObj.addressAccount) {
         messageApi.open({
           type: 'error',
           content: 'Cannot assign role to owner address',
+        });
+        return;
+      }
+      if (!Web3.utils.isAddress(address)) {
+        messageApi.open({
+          type: 'error',
+          content: 'Please provide a valid address',
         });
         return;
       }
@@ -43,6 +59,8 @@ export const MemberModal: React.FC<MemberModalType> = ({
       setLoading(true);
       await addMember(address, roleId);
       setLoading(false);
+      setRole('');
+      setAddress('');
       messageApi.open({
         type: 'success',
         content: 'Member added successfully',
@@ -50,7 +68,10 @@ export const MemberModal: React.FC<MemberModalType> = ({
       await refetch();
       setIsModalOpen(false);
     } catch (err) {
-      console.log(err);
+      messageApi.open({
+        type: 'error',
+        content: getRPCErrorMessage(err),
+      });
       setLoading(false);
     }
   };
@@ -58,13 +79,19 @@ export const MemberModal: React.FC<MemberModalType> = ({
   const onToggleStatus = async () => {
     try {
       setLoading(true);
-      await toggleRoleStatus(data?.address as string, data?.active as boolean);
-      console.log('success');
+      await toggleRoleStatus(data?.address as string, !data?.active as boolean);
+      messageApi.open({
+        type: 'success',
+        content: 'Status updated successfully',
+      });
       setLoading(false);
       await refetch();
       setIsModalOpen(false);
     } catch (err) {
-      console.log(err);
+      messageApi.open({
+        type: 'error',
+        content: getRPCErrorMessage(err),
+      });
       setLoading(false);
     }
   };
@@ -74,7 +101,10 @@ export const MemberModal: React.FC<MemberModalType> = ({
       title={title}
       open={open}
       maskClosable={false}
-      onCancel={() => setIsModalOpen(false)}
+      onCancel={() => {
+        setIsModalOpen(false);
+        setRole('');
+      }}
       footer={null}
     >
       {contextHolder}
@@ -84,6 +114,7 @@ export const MemberModal: React.FC<MemberModalType> = ({
             placeholder="Address"
             className="mb-4"
             onChange={(e) => setAddress(e.target.value)}
+            value={address}
           />
           <Select
             className="mb-4"

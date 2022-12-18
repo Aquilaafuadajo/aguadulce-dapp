@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button, Alert } from 'antd';
 import { memberColumns } from '../../configs/tableColumns';
 import { MemberModalType } from '../../types/modal.type';
 import { MemberModal } from '../../modals/Member.modal';
@@ -10,7 +10,7 @@ const MemberList = () => {
     Omit<MemberModalType, 'setIsModalOpen'>
   >({ open: false, type: undefined, data: undefined });
 
-  const { members, loading } = useMembers();
+  const { members, loading, error } = useMembers();
 
   const onCloseModal = () => {
     setActiveModal({
@@ -37,7 +37,11 @@ const MemberList = () => {
   };
   return (
     <div className="flex flex-col">
-      <Button className="w-max ml-auto mr-5 mb-10" onClick={onAddNew}>
+      <Button
+        className="w-max ml-auto mr-5 mb-10"
+        onClick={onAddNew}
+        disabled={error.status}
+      >
         Add Member
       </Button>
       <MemberModal
@@ -46,15 +50,22 @@ const MemberList = () => {
         data={activeModal.data}
         setIsModalOpen={onCloseModal}
       />
-      <Table
-        data-testid="members-table"
-        columns={memberColumns({
-          toggleStatus,
-        })}
-        loading={loading}
-        dataSource={members}
-        rowKey="address"
-      />
+      {error && error.status && (
+        <div className="px-5">
+          <Alert message={error.message} type="error" />
+        </div>
+      )}
+      {!error.status && (
+        <Table
+          data-testid="members-table"
+          columns={memberColumns({
+            toggleStatus,
+          })}
+          loading={loading}
+          dataSource={members}
+          rowKey="address"
+        />
+      )}
     </div>
   );
 };

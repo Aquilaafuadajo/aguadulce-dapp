@@ -2,6 +2,7 @@ import { Modal, Input, Button, message } from 'antd';
 import React from 'react';
 import { addRole } from '../services';
 import { useRoles } from '../state';
+import { getRPCErrorMessage } from '../utils';
 
 export const RoleModal: React.FC<{
   open: boolean;
@@ -13,6 +14,13 @@ export const RoleModal: React.FC<{
   const [messageApi, contextHolder] = message.useMessage();
 
   const onAddRole = async () => {
+    if (!role) {
+      messageApi.open({
+        type: 'error',
+        content: 'Please enter a role',
+      });
+      return;
+    }
     try {
       if (roles?.includes(role)) {
         messageApi.open({
@@ -25,17 +33,18 @@ export const RoleModal: React.FC<{
       await addRole(role);
       setRoles([...roles, role]);
       setLoading(false);
+      setRole('');
       setIsModalOpen(false);
       messageApi.open({
         type: 'success',
         content: 'Role added successfully',
       });
     } catch (err) {
+      const message = getRPCErrorMessage(err);
       messageApi.open({
         type: 'error',
-        content: 'An error occured',
+        content: message,
       });
-      console.log(err);
       setLoading(false);
     }
   };
@@ -52,6 +61,7 @@ export const RoleModal: React.FC<{
         <Input
           placeholder="Role Name"
           className="mb-4"
+          value={role}
           onChange={(e) => setRole(e.target.value)}
         />
         <Button

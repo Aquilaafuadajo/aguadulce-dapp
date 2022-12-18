@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { getMembers } from '../../services';
-import { Member } from '../../types';
+import { ErrorType, Member } from '../../types';
 import MembersContext from './context';
 
 const MembersProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -8,7 +8,10 @@ const MembersProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [members, setMembers] = React.useState<Member[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  const [error, setError] = React.useState<ErrorType>({
+    status: false,
+    message: '',
+  });
 
   React.useEffect(() => {
     const loadAsync = async () => {
@@ -20,8 +23,10 @@ const MembersProvider: React.FC<{ children: React.ReactNode }> = ({
           setLoading(false);
         }
       } catch (err) {
-        console.log(err);
-        setError(true);
+        setError({
+          status: true,
+          message: `Unable To load members. Did you run out of gas? if No, please check that you selected a correct ${process.env.REACT_APP_NETWORK_NAME} network and reload the page`,
+        });
         setLoading(false);
         // alert('Unable to fetch members at the moment');
       }
@@ -34,7 +39,10 @@ const MembersProvider: React.FC<{ children: React.ReactNode }> = ({
       const allMembers = await getMembers();
       setMembers([...allMembers]);
     } catch (err) {
-      console.log(err);
+      setError({
+        status: true,
+        message: `Unable To load members. Did you run out of gas? if No, please check that you selected a correct ${process.env.REACT_APP_NETWORK_NAME} network and reload the page`,
+      });
     }
   };
 

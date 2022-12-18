@@ -1,9 +1,10 @@
 import React from 'react';
+import { ErrorType } from '../../types';
 
 export type RolesContextType = {
   roles: string[];
   loading: boolean;
-  error: boolean;
+  error: ErrorType;
   setRoles: (roles: string[]) => void;
 };
 

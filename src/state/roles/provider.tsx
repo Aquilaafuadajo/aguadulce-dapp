@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { getRoles } from '../../services';
+import { ErrorType } from '../../types';
 import RolesContext from './context';
 
 const RolesProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -7,7 +8,10 @@ const RolesProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [roles, setRoles] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  const [error, setError] = React.useState<ErrorType>({
+    status: false,
+    message: '',
+  });
 
   React.useEffect(() => {
     const loadAsync = async () => {
@@ -20,9 +24,10 @@ const RolesProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       } catch (err) {
         setLoading(false);
-        setError(true);
-        console.log(err);
-        // alert('Unable to fetch roles at the moment');
+        setError({
+          status: true,
+          message: `Unable To load roles. Did you run out of gas? if No, please check that you selected a correct ${process.env.REACT_APP_NETWORK_NAME} network and reload the page`,
+        });
       }
     };
     loadAsync();

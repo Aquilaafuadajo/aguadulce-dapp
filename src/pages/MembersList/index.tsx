@@ -40,7 +40,7 @@ const MemberList = () => {
       <Button
         className="w-max ml-auto mr-5 mb-10"
         onClick={onAddNew}
-        disabled={error.status}
+        disabled={error.status || loading}
       >
         Add Member
       </Button>

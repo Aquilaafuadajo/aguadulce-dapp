@@ -40,7 +40,7 @@ const MemberList = () => {
       <Button
         className="w-max ml-auto mr-5 mb-10"
         onClick={onAddNew}
-        disabled={error.status || loading}
+        disabled={error?.status || loading}
       >
         Add Member
       </Button>
@@ -50,12 +50,12 @@ const MemberList = () => {
         data={activeModal.data}
         setIsModalOpen={onCloseModal}
       />
-      {error && error.status && (
+      {error && error?.status && (
         <div className="px-5">
-          <Alert message={error.message} type="error" />
+          <Alert message={error?.message} type="error" />
         </div>
       )}
-      {!error.status && (
+      {!error?.status && (
         <Table
           data-testid="members-table"
           columns={memberColumns({

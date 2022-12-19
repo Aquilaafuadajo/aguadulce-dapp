@@ -22,17 +22,17 @@ const RoleList = () => {
       <Button
         className="w-max ml-auto mr-5 mb-10"
         onClick={onAddNew}
-        disabled={error.status || loading}
+        disabled={error?.status || loading}
       >
         Add New Role
       </Button>
       <RoleModal open={activeModal} setIsModalOpen={onCloseModal} />
-      {error && error.status && (
+      {error && error?.status && (
         <div className="px-5">
           <Alert message={error.message} type="error" />
         </div>
       )}
-      {!error.status && (
+      {!error?.status && (
         <Table
           columns={roleColumns}
           dataSource={allRoles}

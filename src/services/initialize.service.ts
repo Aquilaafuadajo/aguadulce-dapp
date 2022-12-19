@@ -28,6 +28,12 @@ const loadWeb3 = async () => {
     try {
       // Request account access if needed
       await windowObj.ethereum.enable();
+      windowObj.ethereum.on('chainChanged', function () {
+        window.location.reload();
+      });
+      windowObj.ethereum.on('accountsChanged', function () {
+        window.location.reload();
+      });
       // Acccounts now exposed
       windowObj.web3.eth.sendTransaction({
         /* ... */

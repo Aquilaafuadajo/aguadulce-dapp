@@ -1,0 +1,14 @@
+FROM node:alpine
+
+# create destination directory
+WORKDIR /usr/src/app
+
+# update and install dependency
+RUN apk update && apk upgrade
+RUN apk add git
+
+RUN npm install -g ganache-cli
+
+EXPOSE 8545
+
+CMD ["ganache-cli","-h","0.0.0.0", "--networkId", "5777"]

@@ -1,0 +1,22 @@
+FROM node:14.21-alpine
+
+# create destination directory
+WORKDIR /usr/src/app
+
+# update and install dependency
+RUN apk update && apk upgrade
+RUN apk add git
+
+COPY package.json .
+
+RUN npm install --no-package-lock --build-from-source --force
+
+# COPY client directory folder
+COPY ./public ./public/
+COPY ./src ./src/
+COPY ./postcss.config.js .
+COPY ./prettier.config.js .
+COPY ./tailwind.config.js .
+COPY ./tsconfig.json .
+
+CMD ["npm","start"]

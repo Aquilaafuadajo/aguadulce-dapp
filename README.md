@@ -2,33 +2,29 @@
 
 Follow [link](https://aguadulce-dapp.netlify.app/) to view live project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## How To Run
 
-1. Clone the repo using the command below:
+1. Install truffle following the link below
+
+- follow [link](https://trufflesuite.com/docs/truffle/how-to/install/) to install truffle on machine
+
+2. Clone the repo using the command below:
 
 `git clone git@github.com:Aquilaafuadajo/aguadulce-dapp.git`
 
-2. go into the projects root folder and run the following command:
+3. Go to the project root folder and run the following command to boot ganache
 
-`npm install`
+`cd ganache`
+`docker-compose up --build`
 
-3. Make sure you have the truffle, ganache and metamask extension installed on machine.
+4. Deploy your contract using the command below:
 
-- follow [link](https://trufflesuite.com/docs/truffle/how-to/install/) to install truffle on machine
-- follow [link](https://trufflesuite.com/ganache/) to install ganache
-- follow [link](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) to install metamask extension on your browser.
-
-4. Run Ganache and configure metamask to use ganache local network. Here's a great [article](https://coinsbench.com/connect-to-metamask-from-new-or-existing-web-application-with-truffle-and-ganache-f48aa763c0ac) on how to do this.
-
-5. Run the following command to deploy contract to the local test network
-
-`truffle compile`
 `truffle migrate --reset`
 
-6. Copy the contract address from the console and paste in the .env file like below:
+5. Go into the root folder and past the contract address from the terminal and paste in docker-compose.yml file
 
-`REACT_APP_CONTRACT_ADDRESS=THE_ADDRESS_YOU_COPIED`
+`REACT_APP_CONTRACT_ADDRESS: THE_ADDRESS_YOU_COPIED`
 
-7. Run the `npm start` to start the application.
+6. Finally run `docker-compose up --build` to start the application
+
+7. go to localhost:3003 to view application

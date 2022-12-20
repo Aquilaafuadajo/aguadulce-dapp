@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  react:
+    build:
+      context: .
+      dockerfile: dockerfile.client
+    environment:
+      REACT_APP_CONTRACT_ADDRESS: '0x888e16edd681ba3fa72fae167336ec99c85a8120'
+    volumes:
+      - client_node_modules:/usr/src/app/node_modules
+    ports:
+      - "3003:3003"
+volumes:
+  client_node_modules: {}

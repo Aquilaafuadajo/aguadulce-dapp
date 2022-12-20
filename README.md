@@ -21,7 +21,7 @@ Follow [link](https://aguadulce-dapp.netlify.app/) to view live project
 
 `truffle migrate --reset`
 
-5. Go into the root folder and past the contract address from the terminal and paste in docker-compose.yml file
+5. Go into the root folder and copy the contract address from the terminal and paste in docker-compose.yml file
 
 `REACT_APP_CONTRACT_ADDRESS: THE_ADDRESS_YOU_COPIED`
 
